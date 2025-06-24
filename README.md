@@ -1,3 +1,3 @@
 # OG-Nepo
-India SVG Map and other stuff\n
+India SVG Map and other stuff
 HEllo everyone
