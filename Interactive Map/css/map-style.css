@@ -1,27 +1,54 @@
-﻿#mapwrapper {
+#mapwrapper {
   font-family: Arial, Helvetica, sans-serif;
   max-width: 1920px;
   margin: 0 auto;
   padding: 0 0;
-  background-color: transparent;
+  background-color: beige;
   min-width: 220px;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  user-select: none; 
+  user-select: none;
+  justify-content: left;
+  align-items: left;
+}
+ #overall{
+  background-color: beige;
+ } 
+
+#GSales{
+  display: flex;
+  flex-wrap: wrap;
+  align-content: right;
+  align-items: right;
+  width: 1%;
+  height: 10%;
+  padding: 0 0 0;
+  margin: 0 0 0;
 }
 #visnames {
   font-size: 16px;
 }
-#mapbase svg {
-  max-height: 100%;
-  width: 100%;
-  margin: 0;
-  -webkit-filter: drop-shadow( 1px 1px 2px rgba(0, 0, 0, 0.2) ); 
-    filter: drop-shadow( 1px 1px 2px rgba(0, 0, 0, 0.2) );
+#mapbase {
+  width: 63%;
+  display: flex;
+  justify-content: center;       /* keep centered */
+  align-items: center;
 }
+
+#mapbase svg {
+  width: 100%;
+  max-width: 1000px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.2));
+  transform: translateX(-20%);    /* shift slightly to the left */
+}
+
+
 #tryjstip {
   font: 14px/16px Trebuchet MS, Helvetica, Arial, sans-serif;
   display: none;
