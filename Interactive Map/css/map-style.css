@@ -3,7 +3,7 @@
   max-width: 1920px;
   margin: 0 auto;
   padding: 0 0;
-  background-color: beige;
+  background-color:#2B4F4F ;
   min-width: 220px;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -14,9 +14,35 @@
   justify-content: left;
   align-items: left;
 }
- #overall{
+
+p{
   background-color: beige;
+  color: #2B4F4F;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-style: normal;
+  font-style: bold;
+}
+ #overall{
+  background-color:#2B4F4F;
  } 
+#heading{
+  background-color: #2B4F4F;
+  color: beige;
+  align-items: left;
+  display: flex;
+  flex-wrap: wrap;
+  /*font-weight: bolder;*/
+  font-size: 700%;
+  margin: 250px 0 250px 0;
+  padding: 60 px;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: bolder;
+  font-style: normal;
+}
+
 
 #GSales{
   display: flex;
