@@ -14,7 +14,6 @@
   justify-content: left;
   align-items: left;
 }
-
 p{
   background-color: beige;
   color: #2B4F4F;
@@ -23,24 +22,69 @@ p{
   font-weight: 200;
   font-style: normal;
   font-style: bold;
+  
+  
+  
 }
  #overall{
   background-color:#2B4F4F;
+  
  } 
+ #animated-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+}
 #heading{
-  background-color: #2B4F4F;
+  
+svg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100vh;
+    margin: 0 0 0;
+    padding: 0 0 0;
+}
+
+
+.links {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 18px;
+    font-family: sans-serif;
+}
+a {
+    text-decoration: none;
+    color: black;
+    margin-left: 1em;
+}
+a:hover {
+    text-decoration: underline;
+}
+a img.icon {
+    display: inline-block;
+    height: 1em;
+    margin: 0 0 -0.1em 0.3em;
+}
+
   color: beige;
   align-items: left;
   display: flex;
   flex-wrap: wrap;
   /*font-weight: bolder;*/
   font-size: 700%;
-  margin: 250px 0 250px 0;
+  margin: 470px 0 250px 0;
   padding: 60 px;
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
   font-weight: bolder;
   font-style: normal;
+  
 }
 
 
@@ -139,3 +183,4 @@ p{
 #tryjs2, #tryjsvn2 {
   display: none;
 }*/
+
