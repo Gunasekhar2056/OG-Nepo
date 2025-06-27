@@ -1,51 +1,61 @@
 import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+import numpy as np
+import matplotlib.ticker as mticker
 
-# Load and inspect
+# Load and clean dataset
 df = pd.read_csv('/content/ev_sales_yearwise_by_region.csv')
 df.columns = df.columns.str.strip()
 
-# Melt wide format to long format
+# Convert to long format
 df_long = df.melt(id_vars='Year', var_name='Region', value_name='EV_Sales')
-
-# Convert to numeric
 df_long['Year'] = pd.to_numeric(df_long['Year'], errors='coerce')
 df_long['EV_Sales'] = pd.to_numeric(df_long['EV_Sales'], errors='coerce')
-
-# Drop missing values
 df_long.dropna(inplace=True)
 
-print(df_long.head())
-from sklearn.linear_model import LinearRegression
-import matplotlib.pyplot as plt
-
-future_years = pd.DataFrame({'Year': list(range(2025, 2031))})
-predictions = {}
+# Predict for future years
+future_years = list(range(2025, 2031))
 
 for region in df_long['Region'].unique():
     region_data = df_long[df_long['Region'] == region]
-    
     X = region_data[['Year']]
     y = region_data['EV_Sales']
-    
-    if len(X) < 2:
-        print(f"Skipping {region}, not enough data.")
-        continue
 
+    # Train model
     model = LinearRegression()
     model.fit(X, y)
 
-    future_pred = model.predict(future_years)
-    predictions[region] = future_pred
+    # Predict future
+    future_X = pd.DataFrame({'Year': future_years})
+    future_y = model.predict(future_X)
 
-    # Plot actual + prediction
-    plt.figure(figsize=(8, 4))
-    plt.scatter(X, y, label='Actual')
-    plt.plot(future_years['Year'], future_pred, color='red', linestyle='--', label='Predicted')
-    plt.title(f"EV Sales Prediction for {region}")
-    plt.xlabel("Year")
-    plt.ylabel("EV Sales")
+    # Combine data
+    pred_df = pd.DataFrame({
+        'Year': future_years,
+        'EV_Sales': future_y,
+        'Type': 'Predicted'
+    })
+    actual_df = region_data.copy()
+    actual_df['Type'] = 'Actual'
+
+    # 📊 Plotting
+    plt.figure(figsize=(10, 6))
+    plt.plot(actual_df['Year'], actual_df['EV_Sales'], marker='o', color='blue', label='Actual')
+    plt.plot(pred_df['Year'], pred_df['EV_Sales'], marker='o', linestyle='--', color='green', label='Predicted')
+
+    plt.title(f'EV Sales Trend & Forecast - {region}', fontsize=14)
+    plt.xlabel('Year', fontsize=12)
+    plt.ylabel('EV Sales (Millions)', fontsize=12)
+
+    # ✅ Custom ticks
+    plt.xticks(np.arange(2010, 2031, 1))  # X-axis starts at 2010
+
+    # ✅ Format Y-axis in millions
+    ax = plt.gca()
+    ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f'{x*1e-6:.1f}M'))
+
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
     plt.show()
-
