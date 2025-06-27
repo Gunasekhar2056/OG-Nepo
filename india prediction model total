@@ -1,0 +1,44 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+import numpy as np
+
+# Load your CSV
+df = pd.read_csv("IND YEARWISE SALES - Sheet1.csv")
+
+# Clean column names
+df.columns = df.columns.str.strip()
+
+# Convert to numeric
+df['YEAR'] = pd.to_numeric(df['YEAR'], errors='coerce')
+df['TOTAL EV SALES'] = pd.to_numeric(df['TOTAL EV SALES'], errors='coerce')
+
+# Drop missing values
+df.dropna(subset=['YEAR', 'TOTAL EV SALES'], inplace=True)
+
+# Convert sales to millions
+df['Sales_Million'] = df['TOTAL EV SALES'] / 1_000_000
+
+# Prepare X and y
+X = df[['YEAR']]
+y = df['Sales_Million']
+
+# Train regression model
+model = LinearRegression()
+model.fit(X, y)
+
+# Predict future years up to 2035
+future_years = np.arange(df['YEAR'].min(), 2036).reshape(-1, 1)
+future_preds = model.predict(future_years)
+
+# Plot actual + predicted
+plt.figure(figsize=(10, 6))
+plt.plot(df['YEAR'], y, marker='o', label="Actual Sales")
+plt.plot(future_years, future_preds, linestyle='--', color='orange', label="Predicted Sales")
+plt.title("EV Sales in India with Prediction (in Millions)")
+plt.xlabel("Year")
+plt.ylabel("EV Sales (in Millions)")
+plt.grid(True)
+plt.legend()
+plt.tight_layout()
+plt.show()
