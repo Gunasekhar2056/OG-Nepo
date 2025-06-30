@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.ticker as mticker
 
 # Load and clean dataset
-df = pd.read_csv('/content/ev_sales_yearwise_by_region.csv')
+df = pd.read_csv('ev_sales_yearwise_by_region.csv')
 df.columns = df.columns.str.strip()
 
 # Convert to long format
