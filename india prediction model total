@@ -1,44 +1,117 @@
 import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
 import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
+import joblib
+import plotly.graph_objs as go
 
-# Load your CSV
+# Load data
 df = pd.read_csv("IND YEARWISE SALES - Sheet1.csv")
-
-# Clean column names
 df.columns = df.columns.str.strip()
 
-# Convert to numeric
+# Clean and prepare data
 df['YEAR'] = pd.to_numeric(df['YEAR'], errors='coerce')
 df['TOTAL EV SALES'] = pd.to_numeric(df['TOTAL EV SALES'], errors='coerce')
-
-# Drop missing values
 df.dropna(subset=['YEAR', 'TOTAL EV SALES'], inplace=True)
-
-# Convert sales to millions
 df['Sales_Million'] = df['TOTAL EV SALES'] / 1_000_000
 
-# Prepare X and y
-X = df[['YEAR']]
+x = df[['YEAR']]
 y = df['Sales_Million']
 
-# Train regression model
+# Polynomial regression
+degree = 3
+poly = PolynomialFeatures(degree=degree)
+x_poly = poly.fit_transform(x)
+
 model = LinearRegression()
-model.fit(X, y)
+model.fit(x_poly, y)
 
-# Predict future years up to 2035
-future_years = np.arange(df['YEAR'].min(), 2036).reshape(-1, 1)
-future_preds = model.predict(future_years)
+# Save model and transformer
+joblib.dump(model, 'ev_sales_poly_model.pkl')
+joblib.dump(poly, 'poly_transformer.pkl')
 
-# Plot actual + predicted
-plt.figure(figsize=(10, 6))
-plt.plot(df['YEAR'], y, marker='o', label="Actual Sales")
-plt.plot(future_years, future_preds, linestyle='--', color='orange', label="Predicted Sales")
-plt.title("EV Sales in India with Prediction (in Millions)")
-plt.xlabel("Year")
-plt.ylabel("EV Sales (in Millions)")
-plt.grid(True)
-plt.legend()
-plt.tight_layout()
-plt.show()
+# Predict on training data
+y_pred = model.predict(x_poly)
+
+# Accuracy
+r2 = r2_score(y, y_pred)
+mae = mean_absolute_error(y, y_pred)
+mse = mean_squared_error(y, y_pred)
+rmse = np.sqrt(mse)
+
+print("Model Accuracy:")
+print(f"R² Score: {r2:.4f}")
+print(f"MAE: {mae:.4f}")
+print(f"MSE: {mse:.4f}")
+print(f"RMSE: {rmse:.4f}")
+
+# Future predictions
+future_years = np.arange(df['YEAR'].min(), 2070).reshape(-1, 1)
+future_x_poly = poly.transform(future_years)
+future_preds = model.predict(future_x_poly)
+
+# Confidence intervals
+residuals = y - y_pred
+std_error = np.std(residuals)
+upper = future_preds + 1.96 * std_error
+lower = future_preds - 1.96 * std_error
+
+# Create interactive Plotly graph
+trace_actual = go.Scatter(
+    x=df['YEAR'],
+    y=y,
+    mode='markers+lines',
+    name='Actual Sales',
+    marker=dict(color='blue'),
+    hovertemplate='Year: %{x}<br>Sales: %{y:.2f}M<extra></extra>'
+)
+
+trace_predicted = go.Scatter(
+    x=future_years.ravel(),
+    y=future_preds,
+    mode='lines',
+    name='Predicted Sales',
+    line=dict(dash='dash', color='orange'),
+    hovertemplate='Year: %{x}<br>Predicted: %{y:.2f}M<extra></extra>'
+)
+
+trace_ci = go.Scatter(
+    x=np.concatenate([future_years.ravel(), future_years.ravel()[::-1]]),
+    y=np.concatenate([upper, lower[::-1]]),
+    fill='toself',
+    fillcolor='rgba(255,165,0,0.2)',
+    line=dict(color='rgba(255,255,255,0)'),
+    name='95% Confidence Interval',
+    hoverinfo='skip'
+)
+
+layout = go.Layout(
+    title='EV Sales in India with Prediction (Interactive)',
+    xaxis=dict(
+        title='Year',
+        showline=True,
+        linewidth=2,
+        linecolor='black',
+        mirror=True,
+        showgrid=True,
+        gridcolor='lightgrey'
+    ),
+    yaxis=dict(
+        title='EV Sales (in Millions)',
+        showline=True,
+        linewidth=2,
+        linecolor='black',
+        mirror=True,
+        showgrid=True,
+        gridcolor='lightgrey'
+    ),
+    plot_bgcolor='white',   # background of graph area
+    paper_bgcolor='white',  # background of the whole figure
+    hovermode='closest',
+    template='plotly_white'
+)
+
+
+fig = go.Figure(data=[trace_actual, trace_predicted, trace_ci], layout=layout)
+fig.show()
