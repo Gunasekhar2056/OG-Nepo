@@ -1,0 +1,99 @@
+import pandas as pd
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
+import plotly.graph_objects as go
+
+# -------------------------------
+# Load and prepare data
+# -------------------------------
+
+# Load data for China, USA, EU27 from main CSV
+df_main = pd.read_csv('ev_sales_yearwise_by_region.csv')
+df_main.columns = df_main.columns.str.strip()
+df_long = df_main.melt(id_vars='Year', var_name='Region', value_name='EV_Sales')
+
+# Load India data from separate CSV
+df_india = pd.read_csv('IND YEARWISE SALES - Sheet1.csv')
+df_india.columns = df_india.columns.str.strip()  # Remove leading/trailing spaces
+print("India file columns:", df_india.columns.tolist())  # Debug output
+
+# Rename if necessary
+df_india.rename(columns={
+    'YEAR': 'Year',
+    'TOTAL EV SALES': 'EV_Sales'
+}, inplace=True)
+
+df_india['Region'] = 'India'  # Add region label
+
+# Combine both
+df_combined = pd.concat([df_long, df_india[['Year', 'Region', 'EV_Sales']]], ignore_index=True)
+
+# Clean combined data
+df_combined['Year'] = pd.to_numeric(df_combined['Year'], errors='coerce')
+df_combined['EV_Sales'] = pd.to_numeric(df_combined['EV_Sales'], errors='coerce')
+df_combined.dropna(inplace=True)
+
+# -------------------------------
+# Configuration
+# -------------------------------
+countries = ['India', 'China', 'USA', 'EU27']
+future_years = np.arange(2025, 2031)
+degree = 3
+colors = ['green', 'red', 'blue', 'orange']
+color_map = dict(zip(countries, colors))
+
+# -------------------------------
+# Create Plotly figure
+# -------------------------------
+fig = go.Figure()
+
+for region in countries:
+    region_data = df_combined[df_combined['Region'] == region]
+
+    if region_data.empty:
+        print(f"⚠️ Skipping {region}: No data found.")
+        continue
+
+    X = region_data[['Year']]
+    y = region_data['EV_Sales'] / 1_000_000  # Convert to millions
+
+    if X.empty or y.empty:
+        print(f"⚠️ Skipping {region}: Missing Year or EV Sales.")
+        continue
+
+    poly = PolynomialFeatures(degree=degree)
+    X_poly = poly.fit_transform(X)
+    model = LinearRegression()
+    model.fit(X_poly, y)
+
+    all_years = np.concatenate([X['Year'].unique(), future_years])
+    all_years = np.unique(all_years)
+    all_years_df = pd.DataFrame({'Year': all_years})
+    all_X_poly = poly.transform(all_years_df)
+    all_preds = model.predict(all_X_poly)
+
+    fig.add_trace(go.Scatter(
+        x=all_years,
+        y=all_preds,
+        mode='lines+markers',
+        name=region,
+        line=dict(color=color_map.get(region, None), width=3),
+        marker=dict(size=6),
+        hovertemplate=f'{region}<br>Year: %{{x}}<br>Sales: %{{y:.2f}}M<extra></extra>'
+    ))
+
+# -------------------------------
+# Final layout
+# -------------------------------
+fig.update_layout(
+    title='EV Sales Forecast Comparison (India, China, USA, EU27)',
+    xaxis=dict(title='Year', dtick=1),
+    yaxis=dict(title='EV Sales (Millions)'),
+    template='plotly_white',
+    hovermode='x unified',
+    legend=dict(title='Country'),
+    height=600
+)
+
+fig.show()
