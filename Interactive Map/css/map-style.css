@@ -1,19 +1,34 @@
 /* Down : Map down*/
 #mapwrapper {
   font-family: Arial, Helvetica, sans-serif;
-  max-width: 1920px;
-  margin: 0 auto;
-  padding: 0 0;
-  background-color:#2B4F4F ;
-  min-width: 220px;
+  width: 98%;
+  height: 100%;
+  background-color: white;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  justify-content: left;
-  align-items: left;
+  justify-content: center;
+  border-radius: 10%;
+  margin-top: 2%;
+  margin-left: 1%;
+  margin-right: 1%;
+
+}
+#donutc{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: right;
+  align-items: flex-end;
+  width: 10%;
+  height: 10%;
+}
+#aftermap{
+  width: 100vw;
+  height: 100vh;
+  background-color: #404040;
 }
 #nav {
   position: relative;
@@ -21,7 +36,6 @@
   height: 100vh;
   overflow: hidden;
 }
-
 #nav video {
   position: absolute;
   top: 0;
@@ -43,20 +57,32 @@
   z-index: 1;
   text-align: center;
 }
-
-
 /* Down : We have the intro paragraph*/
 p{
-  background-color: #F5F5F7;
-  color: black;
-  font-family: "Inter", sans-serif;
+  background-color: #404040;
+  color: white;
+  font-family: "Noto Sans Sunuwar", sans-serif;
   font-optical-sizing: auto;
-  font-weight: normal;
-  font-style: normal;
- margin:  0 0 0 0;
- padding: 0 0 0 0;
-
- 
+  font-weight: lighter;
+  font-style: lighter;
+  font-size: 1.8rem;
+  margin: 2vh 3vw;
+  padding: 0 20vh;
+  text-align: center; 
+}
+#maph{
+  color: black;
+  font-family: "Noto Sans Sunuwar", sans-serif;
+  font-weight: lighter;
+  font-style: lighter;
+  font-size: 1.8rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0 auto; /* Center block element */
+  width: fit-content; /* Adjust width to content */
 }
 /*Down:To stop the horizontal scrolling*/
 html, body {
@@ -64,36 +90,36 @@ html, body {
   overflow-x: hidden;
   margin: 0 0 0 0;
   padding: 0 0 0 0;
-
 }
 html{
   font-size: 16px;
 }
 /* Down : BODY */
- #overall{
-
+#overall{
+  background-color: #404040;
   height: 100vh;
   width: 100vw;
   margin: 0 0 0 0;
   padding: 0 0 0 0;
- } 
+} 
+
 #visnames {
   font-size: 16px;
 }
+
 #mapbase {
-  width: 41%;
+  width: 100%;
   display: flex;
   justify-content: center;       /* keep centered */
   align-items: center;
 }
 #mapbase svg {
-  width: 100%;
-  max-width: 1000px;
+  width: 50%;
   height: auto;
   display: block;
   margin: 0 auto;
   filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.2));
-  transform: translateX(-20%);    /* shift slightly to the left */
+  transform: scale(1.3) translateX(-15%) translateY(-2%);    /* shift slightly to the left */
 }
 #tryjstip {
   font: 14px/16px Trebuchet MS, Helvetica, Arial, sans-serif;
@@ -107,9 +133,9 @@ html{
   position: absolute;
   background: rgba(265, 265, 265, 0.9);
   word-break: keep-all;
-  box-shadow:1px 2px 4px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow:1px 2px 4px rgba(0, 0, 0, 0.5);
-    -webkit-box-shadow:1px 2px 4px rgba(0, 0, 0, 0.5);
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
 }
 #tryjstip p {
   margin: 0!important;
@@ -122,36 +148,36 @@ html{
 }
 @media screen and (max-width: 320px){
   #mapbase svg {
-    height:270px;
+    height: 270px;
   }
 }
 @media screen and (max-width: 400px) and (min-width: 321px) {
   #mapbase svg {
-    height:320px;
+    height: 320px;
   }
 }
 @media screen and (max-width: 480px) and (min-width: 401px) {
   #mapbase svg {
-    height:400px;
+    height: 400px;
   }
 }
 @media screen and (max-width: 568px) and (min-width: 481px) {
   #mapbase svg {
-    height:480px;
+    height: 480px;
   }
 }
 @media screen and (max-width: 685px) and (min-width: 569px) {
   #mapbase svg {
-    height:550px;
+    height: 550px;
   }
 }
 @media screen and (max-width: 767px) and (min-width: 686px) {
   #mapbase svg {
-    height:560px;
+    height: 560px;
   }
 }
 @media screen and (min-width: 768px) {
   #mapbase svg {
-    height:590px;
+    height: 590px;
   }
 }
