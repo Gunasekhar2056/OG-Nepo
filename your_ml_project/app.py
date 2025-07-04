@@ -1,3 +1,4 @@
+# app.py (Flask backend for EV Sales Predictor using pre-trained model)
 from flask import Flask, render_template, request
 import joblib
 import numpy as np
@@ -11,9 +12,7 @@ model = joblib.load('ev_sales_poly_model.pkl')
 poly = joblib.load('poly_transformer.pkl')
 df = pd.read_csv('IND YEARWISE SALES - Sheet1.csv')
 df.columns = df.columns.str.strip()
-
-# Preprocess once
-df['EV_Sales'] = pd.to_numeric(df['TOTAL EV SALES'], errors='coerce') / 1_000_000  # Convert to millions
+df['EV_Sales'] = pd.to_numeric(df['TOTAL EV SALES'], errors='coerce') / 1_000_000
 
 @app.route('/')
 def home():
@@ -23,39 +22,50 @@ def home():
 def predict():
     try:
         year = int(request.form['year'])
+        if not 2010 <= year <= 2050:
+            return render_template('index.html', error="Enter year between 2010 and 2050.")
 
-        # Transform and predict
-        year_transformed = poly.transform(np.array([[year]]))
-        prediction = float(model.predict(year_transformed)[0])
-        prediction = round(prediction, 2)
+        start_year = df['YEAR'].min()
+        end_year = year
 
-        # Filter data for actual years and append prediction year
-        df_filtered = df[df['YEAR'] <= year].copy()
+        all_years = np.arange(start_year, end_year + 1).reshape(-1, 1)
+        all_years_poly = poly.transform(all_years)
+        predicted_sales = model.predict(all_years_poly)
+        predicted_value = round(predicted_sales[-1], 2)
 
         fig = go.Figure()
 
-        # Line for actual + predicted
-        all_years = list(df_filtered['YEAR']) + [year]
-        all_sales = list(df_filtered['EV_Sales']) + [prediction]
-
+        # Actual sales line
         fig.add_trace(go.Scatter(
-            x=all_years,
-            y=all_sales,
+            x=df['YEAR'],
+            y=df['EV_Sales'],
             mode='lines+markers',
-            name='Sales (Actual + Prediction)',
+            name='Actual Sales',
             line=dict(color='royalblue', width=3)
         ))
 
-        # Red point only for prediction
+        # Full prediction line from start year
+        fig.add_trace(go.Scatter(
+            x=all_years.flatten(),
+            y=predicted_sales,
+            mode='lines',
+            name='Prediction Line',
+            line=dict(color='orange', width=3, dash='dash')
+        ))
+
+        # Highlight predicted point
         fig.add_trace(go.Scatter(
             x=[year],
-            y=[prediction],
+            y=[predicted_value],
             mode='markers+text',
             name='Predicted',
             marker=dict(size=10, color='red'),
-            text=[f'{prediction}'],
+            text=[f'{predicted_value}'],
             textposition='top center'
         ))
+
+        max_y = max(max(predicted_sales), df['EV_Sales'].max())
+        y_range_top = max_y * 1.1
 
         fig.update_layout(
             title='EV Sales Prediction',
@@ -66,19 +76,19 @@ def predict():
             width=1100,
             margin=dict(l=80, r=80, t=80, b=80),
             hovermode='x unified',
-            xaxis=dict(dtick=1, gridcolor='lightgrey'),
-            yaxis=dict(dtick=5, gridcolor='lightgrey')
+            xaxis=dict(dtick=1, tickangle=-45, gridcolor='lightgrey'),
+            yaxis=dict(gridcolor='lightgrey', tickformat=".2f", dtick=50, range=[0, y_range_top])
         )
 
         graph_html = fig.to_html(full_html=False)
 
         return render_template('index.html',
-                               prediction=prediction,
+                               prediction=predicted_value,
                                year=year,
                                map_div=graph_html)
 
     except Exception as e:
-        print("Plot error:", e)
+        print("ERROR:", e)
         return render_template('index.html', error="Error creating plot")
 
 if __name__ == '__main__':
