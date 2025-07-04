@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EV Sales Predictor</title>
+</head>
+<body>
+    <h1>Enter Year to Predict EV Sales</h1>
+
+    <form action="/predict" method="post">
+        <input type="number" name="year" required>
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction %}
+        <h2>Predicted EV Sales (in lakhs): {{ prediction }}</h2>
+    {% endif %}
+</body>
+</html>
