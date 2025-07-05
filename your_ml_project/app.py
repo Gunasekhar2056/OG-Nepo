@@ -16,14 +16,14 @@ df['EV_Sales'] = pd.to_numeric(df['TOTAL EV SALES'], errors='coerce') / 1_000_00
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('index2.html')
 
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
         year = int(request.form['year'])
         if not 2010 <= year <= 2050:
-            return render_template('index.html', error="Enter year between 2010 and 2050.")
+            return render_template('index2.html', error="Enter year between 2010 and 2050.")
 
         start_year = df['YEAR'].min()
         end_year = year
@@ -82,14 +82,14 @@ def predict():
 
         graph_html = fig.to_html(full_html=False)
 
-        return render_template('index.html',
+        return render_template('index2.html',
                                prediction=predicted_value,
                                year=year,
                                map_div=graph_html)
 
     except Exception as e:
         print("ERROR:", e)
-        return render_template('index.html', error="Error creating plot")
+        return render_template('index2.html', error="Error creating plot")
 
 if __name__ == '__main__':
     app.run(debug=True)
