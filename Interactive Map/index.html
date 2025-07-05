@@ -24,7 +24,7 @@
 </head>
 <body id="overall">
 <div id="nav">
- <video src="https://video.wixstatic.com/video/c837a6_02de7d4c43d44b7b890854049ed75da8/1080p/mp4/file.mp4" autoplay loop playsinline></video>
+ <video src="https://video.wixstatic.com/video/c837a6_02de7d4c43d44b7b890854049ed75da8/1080p/mp4/file.mp4" autoplay muted loop playsinline></video>
 <h1>EV SALES DASHBOARD </h1>
 </div>
 <p>Electric vehicles (EVs) are a sustainable and eco-friendly alternative to traditional fuel-powered cars. Powered primarily by electricity stored in batteries, EVs produce zero tailpipe emissions, helping reduce air pollution and dependence on fossil fuels. They offer quiet operation, lower maintenance costs, and increasing driving ranges due to advancements in battery technology.</p>
@@ -159,16 +159,17 @@
 </body>
 </div>
 </div>
-<div id="aftermap">
  
-  <button id = totsalbtn onclick="goToIndex2()">Click to see the Total sales prediction</button>
+<div id="aftermap">
+  <button id="totsalbtn" onclick="goToIndex2()">Click to see the Total sales prediction</button>
 
-<script>
-  function goToIndex2() {
-    window.location.href = "../predmodel/template/index2.html";
-  }
-</script>
-
+  <script>
+    function goToIndex2() {
+      // Open Flask app (which serves index2.html) in a new tab
+      window.open("http://127.0.0.1:5000/", "_blank");
+    }
+  </script>
 </div>
+
 </body>
 </html>
