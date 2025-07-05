@@ -11,11 +11,14 @@
   -ms-user-select: none;
   user-select: none;
   justify-content: center;
-  border-radius: 10%;
+  border-radius: 20%;
   margin-top: 2%;
   margin-left: 1%;
   margin-right: 1%;
 
+}
+#html{
+  scroll-behavior: smooth;
 }
 #donutc{
   display: flex;
@@ -57,17 +60,29 @@
   z-index: 1;
   text-align: center;
 }
+#totsalbtn{
+  width: 98%;
+  margin-left: 1%;
+  margin-top: 1.5%;
+  background-color: white;
+  font-size: 1.5rem ;
+  color: #404040;
+  height: 5%;
+  border-radius: 25%;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+
+}
 /* Down : We have the intro paragraph*/
 p{
   background-color: #404040;
   color: white;
-  font-family: "Noto Sans Sunuwar", sans-serif;
+  font-family:"Noto Sans Sunuwar", sans-serif;
   font-optical-sizing: auto;
   font-weight: lighter;
   font-style: lighter;
-  font-size: 1.8rem;
-  margin: 2vh 3vw;
-  padding: 0 20vh;
+  font-size: 1.5rem;
+  width: 98%;
+  margin-left: 1%;
   text-align: center; 
 }
 #maph{
