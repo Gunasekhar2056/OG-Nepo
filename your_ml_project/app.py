@@ -30,7 +30,7 @@ def predict():
 
         all_years = np.arange(start_year, end_year + 1).reshape(-1, 1)
         all_years_poly = poly.transform(all_years)
-        predicted_sales = model.predict(all_years_poly)
+        predicted_sales = model.predict(all_years_poly)/10 
         predicted_value = round(predicted_sales[-1], 2)
 
         fig = go.Figure()
