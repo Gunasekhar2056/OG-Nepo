@@ -11,12 +11,12 @@
     
    <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: "Noto Sans Sunuwar", sans-serif;
       padding: 20px;
     }
     .donutc {
       width: 45%;
-	  margin-top: -1%;
+	  margin-top: 3%;
 	  padding: 0 0 0 0;
 	  margin-right: 3%;
     }
@@ -24,7 +24,7 @@
 </head>
 <body id="overall">
 <div id="nav">
- <video src="https://video.wixstatic.com/video/c837a6_02de7d4c43d44b7b890854049ed75da8/1080p/mp4/file.mp4" autoplay muted loop playsinline></video>
+ <video src="https://video.wixstatic.com/video/c837a6_02de7d4c43d44b7b890854049ed75da8/1080p/mp4/file.mp4" autoplay loop playsinline></video>
 <h1>EV SALES DASHBOARD </h1>
 </div>
 <p>Electric vehicles (EVs) are a sustainable and eco-friendly alternative to traditional fuel-powered cars. Powered primarily by electricity stored in batteries, EVs produce zero tailpipe emissions, helping reduce air pollution and dependence on fossil fuels. They offer quiet operation, lower maintenance costs, and increasing driving ranges due to advancements in battery technology.</p>
@@ -78,52 +78,83 @@
   </div>
   <script>
     const evData = {
-      'West Bengal': 78112,
-      'Uttarakhand': 57606,
       'Uttar Pradesh': 732074,
-      'Tripura': 18346,
-      'Tamil Nadu': 206902,
-      'Telangana': 0,
-      'Sikkim': 4,
-      'Rajasthan': 228573,
-      'Puducherry': 5139,
-      'Punjab': 49285,
-      'Odisha': 86823,
-      'Nagaland': 52,
-      'Mizoram': 235,
-      'Madhya Pradesh': 133182,
-      'Manipur': 1284,
-      'Meghalaya': 208,
       'Maharashtra': 401535,
-      'Lakshadweep': 1,
-      'Kerala': 133246,
       'Karnataka': 315498,
-      'Ladakh': 88,
-      'Jharkhand': 47871,
-      'Haryana': 85250,
-      'Himachal Pradesh': 2886,
-      'Gujarat': 176713,
-      'Goa': 17382,
-      'Dadra and Nagar Haveli': 0,
       'Delhi': 268538,
-      'Daman and Diu': 431,
-      'Chhattisgarh': 75275,
-      'Chandigarh': 11453,
+      'Rajasthan': 228573,
       'Bihar': 213465,
+      'Tamil Nadu': 206902,
+      'Gujarat': 176713,
       'Assam': 151917,
-      'Arunachal Pradesh': 40,
+      'Kerala': 133246,
+      'Madhya Pradesh': 133182,
+      'Odisha': 86823,
+      'Haryana': 85250,
       'Andhra Pradesh': 77356,
-      'Andaman and Nicobar Islands': 202
+      'West Bengal': 78112,
+      'Chhattisgarh': 75275,
+      'Telangana': 69262,
+      'Uttarakhand': 57606,
+      'Punjab': 49285,
+      'Jharkhand': 47871,
+      'Tripura': 18346,
+      'Goa': 17382,
+      'Chandigarh': 11453,
+      'Puducherry': 5139,
+      'Himachal Pradesh': 2886,
+      'Manipur': 1284,
+      'Mizoram': 235,
+      'Meghalaya': 208,
+      'Andaman and Nicobar Islands': 202,
+      'Daman and Diu': 431,
+      'Ladakh': 88,
+      'Nagaland': 52,
+      'Arunachal Pradesh': 40,
+      'Sikkim': 4,
+      'Dadra and Nagar Haveli': 1,
+      'Lakshadweep': 1
     };
 
     const labels = Object.keys(evData);
     const data = Object.values(evData);
     const backgroundColors = [
-      '#F0F8FF', '#E6F0FA', '#DCE6F7', '#D2E0F3', '#C8D9EF', '#BFD3EB', '#B5CDE7', '#ABC6E3', 
-      '#A1C0DF', '#97B9DB', '#8DB3D7', '#83ACD3', '#79A6CF', '#6FA0CB', '#6599C7', '#5B93C3', 
-      '#518DBF', '#4787BB', '#3D81B7', '#337AB3', '#2974AF', '#1F6EAB', '#1568A7', '#0B62A3', 
-      '#015C9F', '#00569B', '#005097', '#004A93', '#00448F', '#003E8B', '#003887', '#003283', 
-      '#002C7F', '#00267B', '#002077'
+      '#08306b',  // Uttar Pradesh
+      '#084387',  // Maharashtra
+      '#08529c',  // Karnataka
+      '#0862ac',  // Delhi
+      '#2171b5',  // Rajasthan
+      '#2b7bba',  // Bihar
+      '#3483bd',  // Tamil Nadu
+      '#4292c6',  // Gujarat
+      '#4fa1cc',  // Assam
+      '#5eaed6',  // Kerala
+      '#69bcd9',  // Madhya Pradesh
+      '#74c0dc',  // Odisha
+      '#8dc6e8',  // Haryana
+      '#92cbe9',  // Andhra Pradesh
+      '#97d0ea',  // West Bengal
+      '#9cd5ec',  // Chhattisgarh
+      '#a0d9ed',  // Telangana
+      '#a5deef',  // Uttarakhand
+      '#a9e3f1',  // Punjab
+      '#ade7f3',  // Jharkhand
+      '#b1ebf4',  // Tripura
+      '#b5eff6',  // Goa
+      '#b9f3f7',  // Chandigarh
+      '#c1f6f8',  // Puducherry
+      '#c9f9f9',  // Himachal Pradesh
+      '#d1fcfa',  // Manipur
+      '#d8fefd',  // Mizoram
+      '#defefe',  // Meghalaya
+      '#e3ffff',  // Andaman and Nicobar Islands
+      '#e7ffff',  // Daman and Diu
+      '#ebffff',  // Ladakh
+      '#efffff',  // Nagaland
+      '#f2ffff',  // Arunachal Pradesh
+      '#f5ffff',  // Sikkim
+      '#f8ffff',  // Dadra and Nagar Haveli
+      '#fbffff',  // Lakshadweep
     ];
 
     new Chart(document.getElementById('evDonutChart'), {
@@ -159,17 +190,16 @@
 </body>
 </div>
 </div>
- 
 <div id="aftermap">
-  <button id="totsalbtn" onclick="goToIndex2()">Click to see the Total sales prediction</button>
+ 
+  <button id = totsalbtn onclick="goToIndex2()">Click to see the Total sales prediction</button>
 
-  <script>
-    function goToIndex2() {
-      // Open Flask app (which serves index2.html) in a new tab
-      window.open("http://127.0.0.1:5000/", "_blank");
-    }
-  </script>
+<script>
+  function goToIndex2() {
+    window.location.href = "../Interactive_Map/your_ml_project/templates/index2.html";
+  }
+</script>
+
 </div>
-
 </body>
 </html>
