@@ -162,19 +162,20 @@
  
 <div id="aftermap">
   <button id="totsalbtn" onclick="goToIndex2()">Click to see the Total sales prediction</button>
-
   <script>
     function goToIndex2() {
       // Open Flask app (which serves index2.html) in a new tab
       window.open("http://127.0.0.1:5000/", "_blank");
     }
   </script>
-    <button id="totsalbtn2" onclick="goToIndex3()">Click to see the Total sales prediction</button>
-
+</div>
+<div>
+  <h3 id="globalsalesh">GLOBAL SALES DATA</h3>
+  <button id="overallsalesbtn" onclick="goToIndex3()">Click to see the Total sales prediction</button>
   <script>
     function goToIndex3() {
       // Open Flask app (which serves index2.html) in a new tab
-      window.open("http://127.0.0.1:8000/", "_blank");
+      window.open("http://127.0.0.1:8000", "_blank");
     }
   </script>
 </div>
