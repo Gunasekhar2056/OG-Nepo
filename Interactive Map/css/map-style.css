@@ -28,11 +28,7 @@
   width: 10%;
   height: 10%;
 }
-#aftermap{
-  width: 100vw;
-  height: 100vh;
-  background-color: #404040;
-}
+
 #nav {
   position: relative;
   width: 100vw;
@@ -60,20 +56,31 @@
   z-index: 1;
   text-align: center;
 }
+#globalsalesh{
+  color: white;
+  font-family: "Noto Sans Sunuwar", sans-serif;
+  font-weight: lighter;
+  font-style: lighter;
+  font-size: 8rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 5% 0 0 0; /* Center block element */
+}
 #totsalbtn{
   width: 97%;
+  height: 10%;
   margin-left: 1%;
   margin-top: 1.5%;
   background-color: white;
-  font-size: 1.5rem ;
+  font-size: 2rem ;
   font-family: "Noto Sans Sunuwar", sans-serif;
   color: #404040;
-  padding: 1.2rem 0 3rem 0;
-  height: 5%;
-  border-radius: 2rem;
-  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
   border: none;
   text-align: center;
+  border-radius: 3rem;
 }
 /* Down : We have the intro paragraph*/
 p{
